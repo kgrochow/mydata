@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {XYPlot, ArcSeries, XAxis, YAxis, HorizontalGridLines, LineSeries} from 'react-vis';
-import "react-vis/dist/style.css";
+import Plot from 'react-plotly.js';
 
 const PreviewContainer = styled.pre`
     font-family: Consolas;
@@ -52,18 +51,17 @@ const Plotter = (props) => {
         //     dangerouslySetInnerHTML={{__html: innerHTML}}
         // />
         
-        <XYPlot
-            xDomain={[-5, 5]}
-            yDomain={[-5, 5]}
-            width={300}
-            height={300}>
-            <ArcSeries
-                animation
-                // radiusType={'literal'}
-                // center={{x: -2, y: 2}}
-                data={myData}
-                colorType={'literal'}/>
-        </XYPlot>
+        <Plot
+            data={[
+                {
+                values: [8, 11, 12, 14, 22, 33],
+                labels: ['0', '1', '2', '3', '4', '5+'],
+                type: 'pie'
+                }
+            ]}
+            layout={ {width: 400, height: 400, title: 'Spots'} }
+            config={ {displayModeBar: false} }
+        />
     );
 };
 
