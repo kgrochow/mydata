@@ -3,13 +3,13 @@
   "version": "1.0.0-alpha.6",
   "description": "The infinite-tree library for React.",
   "main": "lib/index.js",
+  "proxy": "http://localhost:5000",
   "scripts": {
     "prepublish": "npm run build",
     "build": "webpack",
     "deploy": "gh-pages -d build",
     "start": "webpack-dev-server --hot --inline --host 0.0.0.0 --port 8000 --content-base ./build"
   },
-  "proxy": "http://localhost:5000",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kgrochow/mydata.git"
@@ -28,7 +28,8 @@
     "infinite-tree": "^1.16.0",
     "react-infinite-tree": "^1.0.0-alpha.6",
     "react-splitter-layout": "^4.0.0",
-    "react-tiny-virtual-list": "^2.1.4"
+    "react-tiny-virtual-list": "^2.1.4",
+    "react-vis": "^1.11.7"
   },
   "devDependencies": {
     "@trendmicro/react-buttons": "~1.3.0",

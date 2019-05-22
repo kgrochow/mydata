@@ -55,8 +55,8 @@ const renderTreeNode = ({ node, tree, toggleState, onUpdate }) => (
             {node.children.length}
         </Label> */}
         <Dropdown
-            style={{ position: 'absolute', right: 20, top: 4 }}
-            pullRight
+            // style={{ position: 'absolute', right: 20, top: 4 }}
+            // pullRight
         >
             <Dropdown.Toggle
                 noCaret

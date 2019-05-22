@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react';
 import Tree from './Tree';
 import Preview from './Preview';
+import Plotter from './Plotter';
 import debounce from 'lodash.debounce';
 import SplitterLayout from 'react-splitter-layout';
 import 'react-splitter-layout/lib/index.css';
+
+
 
 class App extends PureComponent {
     state = {
@@ -153,8 +156,8 @@ class App extends PureComponent {
                             onUpdate={this.onUpdate}
                         />
                     </div>
-                    <div className="col-xs-6">
-                        <Preview node={this.state.node} />
+                    <div className="col-xs-12">
+                        <Plotter node={this.state.node} />               
                     </div>
                 </SplitterLayout>
             </div>
