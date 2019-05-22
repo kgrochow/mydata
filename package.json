@@ -7,8 +7,9 @@
     "prepublish": "npm run build",
     "build": "webpack",
     "deploy": "gh-pages -d build",
-    "dev": "webpack-dev-server --hot --inline --host 0.0.0.0 --port 8000 --content-base ./build"
+    "start": "webpack-dev-server --hot --inline --host 0.0.0.0 --port 8000 --content-base ./build"
   },
+  "proxy": "http://localhost:5000",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kgrochow/mydata.git"
@@ -26,6 +27,7 @@
     "gh-pages": "^2.0.1",
     "infinite-tree": "^1.16.0",
     "react-infinite-tree": "^1.0.0-alpha.6",
+    "react-splitter-layout": "^4.0.0",
     "react-tiny-virtual-list": "^2.1.4"
   },
   "devDependencies": {

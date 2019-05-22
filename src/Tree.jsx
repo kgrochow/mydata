@@ -10,7 +10,7 @@ import Clickable from './components/Clickable';
 import Text from './components/Text';
 import Label from './components/Label';
 import Loading from './components/Loading';
-import { generate } from './tree-generator';
+// import { generate } from './tree-generator';
 
 const renderTreeNode = ({ node, tree, toggleState, onUpdate }) => (
     <TreeNode
@@ -51,9 +51,9 @@ const renderTreeNode = ({ node, tree, toggleState, onUpdate }) => (
             <i className="fa fa-fw fa-ellipsis-v" />
         }
         {node.state.loading && <Loading />}
-        <Label style={{ position: 'absolute', right: 5, top: 6 }}>
+        {/* <Label style={{ position: 'absolute', right: 5, top: 6 }}>
             {node.children.length}
-        </Label>
+        </Label> */}
         <Dropdown
             style={{ position: 'absolute', right: 20, top: 4 }}
             pullRight
@@ -74,20 +74,21 @@ const renderTreeNode = ({ node, tree, toggleState, onUpdate }) => (
 );
 
 class Tree extends PureComponent {
+
     static propTypes = {
         onUpdate: PropTypes.func
     };
 
-    tree = null;
-    data = generate(1000);
+    data = [{id: 'root', name: 'Investigations', loadOnDemand: true}]
+    tree = null
 
     componentDidMount() {
-        // Select the first node
         this.tree.selectNode(this.tree.getChildNodes()[0]);
+        this.tree.openNode(this.tree.getChildNodes()[0]);
     }
+
     render() {
         const { onUpdate } = this.props;
-
         return (
             <InfiniteTree
                 ref={node => {
@@ -101,26 +102,27 @@ class Tree extends PureComponent {
                 tabIndex={0}
                 data={this.data}
                 width="100%"
-                height={400}
-                rowHeight={30}
+                height={500}
+                rowHeight={25}
                 shouldLoadNodes={(node) => {
                     return !node.hasChildren() && node.loadOnDemand;
                 }}
                 loadNodes={(parentNode, done) => {
-                    const suffix = parentNode.id.replace(/(\w)+/, '');
-                    const nodes = [
-                        {
-                            id: 'node1' + suffix,
-                            name: 'Node 1'
-                        },
-                        {
-                            id: 'node2' + suffix,
-                            name: 'Node 2'
+                    var id = parentNode.id
+                    if (isNaN(id))
+                        id = id.replace(/ /g, '+')
+                    fetch('/api/nav_table?id=' + id, {
+                        method: 'GET'
+                    }).then(function(response) {
+                        if (response.status >= 400) {
+                            throw new Error("Bad response from server");
                         }
-                    ];
-                    setTimeout(() => {
-                        done(null, nodes);
-                    }, 1000);
+                        return response.json();
+                    }).then(function(table) {
+                        done(null, table);
+                     }).catch(err => {
+                        console.log('Data Error:',err);
+                    })
                 }}
                 shouldSelectNode={(node) => { // Defaults to null
                     if (!node || (node === this.tree.getSelectedNode())) {

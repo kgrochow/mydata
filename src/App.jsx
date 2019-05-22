@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import Tree from './Tree';
 import Preview from './Preview';
 import debounce from 'lodash.debounce';
+import SplitterLayout from 'react-splitter-layout';
+import 'react-splitter-layout/lib/index.css';
 
 class App extends PureComponent {
     state = {
@@ -113,7 +115,7 @@ class App extends PureComponent {
                                     </label>
                                 </div>
                             </div>
-                            <div className="col-xs-6">
+                            {/* <div className="col-xs-6">
                                 <div className="checkbox" style={{ margin: '5px 0' }}>
                                     <label>
                                         <input
@@ -138,12 +140,12 @@ class App extends PureComponent {
                                         Include descendants
                                     </label>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-xs-6">
+                <SplitterLayout>
+                    <div className="col-xs-12">
                         <Tree
                             ref={c => {
                                 this.tree = c ? c.tree : null;
@@ -154,7 +156,7 @@ class App extends PureComponent {
                     <div className="col-xs-6">
                         <Preview node={this.state.node} />
                     </div>
-                </div>
+                </SplitterLayout>
             </div>
         );
     }
