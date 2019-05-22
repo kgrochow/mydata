@@ -111,7 +111,7 @@ class Tree extends PureComponent {
                     var id = parentNode.id
                     if (isNaN(id))
                         id = id.replace(/ /g, '+')
-                    fetch('/api/nav_table?id=' + id, {
+                    fetch('http://localhost:5000/api/nav_table?id=' + id, {
                         method: 'GET'
                     }).then(function(response) {
                         if (response.status >= 400) {
