@@ -6,20 +6,59 @@ import debounce from 'lodash.debounce';
 import SplitterLayout from 'react-splitter-layout';
 import 'react-splitter-layout/lib/index.css';
 
+import Modal from 'react-modal';
 
+const customStyles = {
+    content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+    }
+  };
 
-class App extends PureComponent {
-    state = {
+  Modal.setAppElement('#container')
+  
+  class App extends PureComponent {
+    constructor() {
+        super();
+    
+        this.state = {
+          modalIsOpen: false
+        };
+    
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+      }
+      
+      state = {
         node: null,
         filterText: '',
         caseSensitive: false,
         exactMatch: false,
         includeAncestors: true,
-        includeDescendants: true
+        includeDescendants: true,
+        formdata: []
     };
 
     textFilter = null;
     tree = null;
+
+    openModal() {
+        this.setState({modalIsOpen: true});
+      }
+    
+      afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        this.subtitle.style.color = '#f00';
+      }
+    
+      closeModal() {
+        this.setState({modalIsOpen: false});
+      }    
 
     changeCheckedState = (key) => (event) => {
         const checked = event.target.checked;
@@ -61,7 +100,11 @@ class App extends PureComponent {
         });
     };
 
-    render() {
+    handleSubmit = character => {
+        this.setState({characters: [...this.state.characters, character]});
+    }
+
+   render() {
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -157,7 +200,30 @@ class App extends PureComponent {
                         />
                     </div>
                     <div className="col-xs-12">
-                        <Plotter node={this.state.node} />               
+                        <div className="row-xs-10">
+                            <Plotter node={this.state.node} />   
+                        </div>
+                        <div className="row-xs-2">
+                            <button onClick={this.openModal}>Download Data</button>
+                            <Modal
+                            isOpen={this.state.modalIsOpen}
+                            onAfterOpen={this.afterOpenModal}
+                            onRequestClose={this.closeModal}
+                            style={customStyles}
+                            contentLabel="Example Modal"
+                            >
+                            <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
+                            <button onClick={this.closeModal}>close</button>
+                            <div>I am a modal</div>
+                            <form>
+                                <input />
+                                <button>tab navigation</button>
+                                <button>stays</button>
+                                <button>inside</button>
+                                <button>the modal</button>
+                            </form>
+                        </Modal>
+                        </div>
                     </div>
                 </SplitterLayout>
             </div>

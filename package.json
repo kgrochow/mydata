@@ -28,6 +28,7 @@
     "infinite-tree": "^1.16.0",
     "plotly.js": "^1.47.4",
     "react-infinite-tree": "^1.0.0-alpha.6",
+    "react-modal": "^3.8.1",
     "react-plotly.js": "^2.3.0",
     "react-splitter-layout": "^4.0.0",
     "react-tiny-virtual-list": "^2.1.4"
