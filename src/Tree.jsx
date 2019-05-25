@@ -79,6 +79,7 @@ class Tree extends PureComponent {
         onUpdate: PropTypes.func
     };
 
+
     data = [{id: 'root', name: 'Investigations', loadOnDemand: true}]
     tree = null
 
@@ -102,7 +103,7 @@ class Tree extends PureComponent {
                 tabIndex={0}
                 data={this.data}
                 width="100%"
-                height={500}
+                height={400}
                 rowHeight={25}
                 shouldLoadNodes={(node) => {
                     return !node.hasChildren() && node.loadOnDemand;

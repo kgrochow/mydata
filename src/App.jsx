@@ -2,11 +2,12 @@ import React, { PureComponent } from 'react';
 import Tree from './Tree';
 import Preview from './Preview';
 import Plotter from './Plotter';
+import Form from './Form';
 import debounce from 'lodash.debounce';
 import SplitterLayout from 'react-splitter-layout';
 import 'react-splitter-layout/lib/index.css';
-
 import Modal from 'react-modal';
+
 
 const customStyles = {
     content : {
@@ -15,8 +16,9 @@ const customStyles = {
       right                 : 'auto',
       bottom                : 'auto',
       marginRight           : '-50%',
-      transform             : 'translate(-50%, -50%)'
-    }
+      transform             : 'translate(-50%, -50%)',
+      width                 : '250px'
+    },
   };
 
   Modal.setAppElement('#container')
@@ -41,7 +43,7 @@ const customStyles = {
         exactMatch: false,
         includeAncestors: true,
         includeDescendants: true,
-        formdata: []
+        formdata: null
     };
 
     textFilter = null;
@@ -50,15 +52,12 @@ const customStyles = {
     openModal() {
         this.setState({modalIsOpen: true});
       }
-    
-      afterOpenModal() {
-        // references are now sync'd and can be accessed.
+    afterOpenModal() {
         this.subtitle.style.color = '#f00';
-      }
-    
-      closeModal() {
+    }
+    closeModal() {
         this.setState({modalIsOpen: false});
-      }    
+    }    
 
     changeCheckedState = (key) => (event) => {
         const checked = event.target.checked;
@@ -100,16 +99,12 @@ const customStyles = {
         });
     };
 
-    handleSubmit = character => {
-        this.setState({characters: [...this.state.characters, character]});
-    }
-
-   render() {
+    render() {
         return (
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-xs-6">
-                        <h4>Filter</h4>
+                        <h5>Filter</h5>
                         <input
                             ref={node => {
                                 this.textFilter = node;
@@ -161,34 +156,22 @@ const customStyles = {
                                     </label>
                                 </div>
                             </div>
-                            {/* <div className="col-xs-6">
-                                <div className="checkbox" style={{ margin: '5px 0' }}>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            name="include-ancestors"
-                                            checked={this.state.includeAncestors}
-                                            onChange={this.changeCheckedState('includeAncestors')}
-                                        />
-                                        Include ancestors
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="checkbox" style={{ margin: '5px 0' }}>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            name="include-descendants"
-                                            checked={this.state.includeDescendants}
-                                            onChange={this.changeCheckedState('includeDescendants')}
-                                        />
-                                        Include descendants
-                                    </label>
-                                </div>
-                            </div> */}
                         </div>
                     </div>
+                    <div className="col-xs-6">
+                        <button onClick={this.openModal}>Download Data</button>
+                        <Modal
+                            isOpen={this.state.modalIsOpen}
+                            onAfterOpen={this.afterOpenModal}
+                            onRequestClose={this.closeModal}
+                            style={customStyles}
+                            contentLabel="Download Modal"
+                            >
+                            <h5  style={{textAlign:"center"}} ref={subtitle => this.subtitle = subtitle}>Download Data</h5>
+                            <Form handleClose={this.closeModal}/>
+                        </Modal>
+                    </ div>
+
                 </div>
                 <SplitterLayout>
                     <div className="col-xs-12">
@@ -200,30 +183,7 @@ const customStyles = {
                         />
                     </div>
                     <div className="col-xs-12">
-                        <div className="row-xs-10">
-                            <Plotter node={this.state.node} />   
-                        </div>
-                        <div className="row-xs-2">
-                            <button onClick={this.openModal}>Download Data</button>
-                            <Modal
-                            isOpen={this.state.modalIsOpen}
-                            onAfterOpen={this.afterOpenModal}
-                            onRequestClose={this.closeModal}
-                            style={customStyles}
-                            contentLabel="Example Modal"
-                            >
-                            <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
-                            <button onClick={this.closeModal}>close</button>
-                            <div>I am a modal</div>
-                            <form>
-                                <input />
-                                <button>tab navigation</button>
-                                <button>stays</button>
-                                <button>inside</button>
-                                <button>the modal</button>
-                            </form>
-                        </Modal>
-                        </div>
+                        <Plotter node={this.state.node} />   
                     </div>
                 </SplitterLayout>
             </div>
