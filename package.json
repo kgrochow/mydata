@@ -55,7 +55,7 @@
     "eslint-plugin-import": "~2.8.0",
     "eslint-plugin-jsx-a11y": "~6.0.3",
     "eslint-plugin-react": "~7.6.1",
-    "jsdom": "~11.6.2",
+    "jsdom": "~16.5.0",
     "lodash.debounce": "~4.0.8",
     "nib": "~1.1.2",
     "react": "^0.14.0 || >=15.0.0",
